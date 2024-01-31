@@ -1,0 +1,27 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: argo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argo
+  template:
+    metadata:
+      labels:
+        app: argo
+        app.kubernetes.io/component: backstage
+        backstage.io/kubernetes-id: argocd
+    spec:
+      containers:
+        - name: argo
+          image: quay.io/quay.io/argoproj/argocd:v2.9.5/argo:latest
+          ports:
+            - name: http-80
+              containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '500m'
